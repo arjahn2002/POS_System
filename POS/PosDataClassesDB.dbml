@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="POS_DB" Class="PosDataClassesDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=Arjahn\SQLEXPRESS;Initial Catalog=POS_DB;Integrated Security=True;Trust Server Certificate=True" SettingsObjectName="POS.Properties.Settings" SettingsPropertyName="POS_DBConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tblAccount" Member="tblAccounts">
+    <Type Name="tblAccount">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoleId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="tblUser_tblAccount" Member="tblUser" ThisKey="UserId" OtherKey="UserId" Type="tblUser" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblUser" Member="tblUsers">
+    <Type Name="tblUser">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ContactNo" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Association Name="tblUser_tblAccount" Member="tblAccount" ThisKey="UserId" OtherKey="UserId" Type="tblAccount" Cardinality="One" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblCategory" Member="tblCategories">
+    <Type Name="tblCategory">
+      <Column Name="CategoryId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CategoryName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="tblCategory_tblProduct" Member="tblProducts" ThisKey="CategoryId" OtherKey="Category" Type="tblProduct" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblInvoice" Member="tblInvoices">
+    <Type Name="tblInvoice">
+      <Column Name="InvoiceId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="InvoiceNo" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="tblInvoice_tblOrder" Member="tblOrders" ThisKey="InvoiceId" OtherKey="InvoiceId" Type="tblOrder" />
+      <Association Name="tblInvoice_tblSale" Member="tblSales" ThisKey="InvoiceId" OtherKey="InvoiceId" Type="tblSale" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblOrder" Member="tblOrders">
+    <Type Name="tblOrder">
+      <Column Name="OrderId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="InvoiceId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OrderName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Price" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="Qty" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Total" Type="System.Decimal" DbType="Decimal(29,2)" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="tblInvoice_tblOrder" Member="tblInvoice" ThisKey="InvoiceId" OtherKey="InvoiceId" Type="tblInvoice" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblPayment" Member="tblPayments">
+    <Type Name="tblPayment">
+      <Column Name="Item" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Price" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="Qty" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalPayment" Type="System.Decimal" DbType="Decimal(29,2)" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblProduct" Member="tblProducts">
+    <Type Name="tblProduct">
+      <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Category" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Image" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Price" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="Qty" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblProduct_tblSale" Member="tblSales" ThisKey="ProductId" OtherKey="ProductId" Type="tblSale" />
+      <Association Name="tblCategory_tblProduct" Member="tblCategory" ThisKey="Category" OtherKey="CategoryId" Type="tblCategory" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblSale" Member="tblSales">
+    <Type Name="tblSale">
+      <Column Name="InvoiceId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProductName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Price" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="Qty" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Total" Type="System.Decimal" DbType="Decimal(29,2)" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="tblInvoice_tblSale" Member="tblInvoice" ThisKey="InvoiceId" OtherKey="InvoiceId" Type="tblInvoice" IsForeignKey="true" />
+      <Association Name="tblProduct_tblSale" Member="tblProduct" ThisKey="ProductId" OtherKey="ProductId" Type="tblProduct" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.SP_CreateCategory" Method="SP_CreateCategory">
+    <Parameter Name="CategoryName" Parameter="categoryName" Type="System.String" DbType="VarChar(30)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_DeleteCategory" Method="SP_DeleteCategory">
+    <Parameter Name="CategoryId" Parameter="categoryId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_UpdateCategory" Method="SP_UpdateCategory">
+    <Parameter Name="CategoryId" Parameter="categoryId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CategoryName" Parameter="categoryName" Type="System.String" DbType="VarChar(30)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_AddAccount" Method="SP_AddAccount">
+    <Parameter Name="FirstName" Parameter="firstName" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="LastName" Parameter="lastName" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="ContactNo" Parameter="contactNo" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="Username" Parameter="username" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="RoleId" Parameter="roleId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_DeleteAccount" Method="SP_DeleteAccount">
+    <Parameter Name="UserId" Parameter="userId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_UpdateAccount" Method="SP_UpdateAccount">
+    <Parameter Name="UserId" Parameter="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RoleId" Parameter="roleId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Username" Parameter="username" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="IsActive" Parameter="isActive" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="FirstName" Parameter="firstName" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="LastName" Parameter="lastName" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="ContactNo" Parameter="contactNo" Type="System.String" DbType="VarChar(30)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_ADDPRODUCT" Method="SP_ADDPRODUCT">
+    <Parameter Name="Description" Parameter="description" Type="System.String" DbType="VarChar(40)" />
+    <Parameter Name="Category" Parameter="category" Type="System.String" DbType="VarChar(40)" />
+    <Parameter Name="Image" Parameter="image" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" />
+    <Parameter Name="Price" Parameter="price" Type="System.Decimal" DbType="Decimal(18,2)" />
+    <Parameter Name="Qty" Parameter="qty" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_DELETEPRODUCT" Method="SP_DELETEPRODUCT">
+    <Parameter Name="ProductId" Parameter="productId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+</Database>
