@@ -189,17 +189,17 @@ namespace POS
 			return ((int)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_ADDPRODUCT")]
-		public int SP_ADDPRODUCT([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="VarChar(40)")] string description, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Category", DbType="VarChar(40)")] string category, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Image", DbType="VarBinary(MAX)")] System.Data.Linq.Binary image, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Price", DbType="Decimal(18,2)")] System.Nullable<decimal> price, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Qty", DbType="Int")] System.Nullable<int> qty)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), description, category, image, price, qty);
-			return ((int)(result.ReturnValue));
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_DELETEPRODUCT")]
 		public int SP_DELETEPRODUCT([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ProductId", DbType="Int")] System.Nullable<int> productId)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), productId);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_ADDPRODUCT")]
+		public int SP_ADDPRODUCT([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(100)")] string description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> category, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarBinary(MAX)")] System.Data.Linq.Binary image, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Decimal(18,2)")] System.Nullable<decimal> price, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> qty)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), description, category, image, price, qty);
 			return ((int)(result.ReturnValue));
 		}
 	}

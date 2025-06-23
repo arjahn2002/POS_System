@@ -30,8 +30,13 @@ namespace POS
 
         public void LoadCategory()
         {
-            var categoryNames = db.tblCategories.Select(db => db.CategoryName);
-            cmbCategory.DataSource = categoryNames.ToList();
+            var categories = db.tblCategories
+                .Select(c => new { c.CategoryId, c.CategoryName })
+                .ToList();
+
+            cmbCategory.DataSource = categories;
+            cmbCategory.DisplayMember = "CategoryName"; // what shows in dropdown
+            cmbCategory.ValueMember = "CategoryId";     // the actual value (ID)
         }
 
         private void btnBrowseImg_Click(object sender, EventArgs e)
@@ -65,8 +70,9 @@ namespace POS
                 MemoryStream memStream = new MemoryStream();
                 picboxImg.BackgroundImage.Save(memStream, System.Drawing.Imaging.ImageFormat.Jpeg);
                 byte[] img = memStream.GetBuffer();
+                int categoryId = Convert.ToInt32(cmbCategory.SelectedValue);
 
-                db.SP_ADDPRODUCT(txtDesc.Text, cmbCategory.Text, img, Convert.ToDecimal(txtPrice.Text), qty);
+                db.SP_ADDPRODUCT(txtDesc.Text, categoryId, img, Convert.ToDecimal(txtPrice.Text), qty);
                 formList.LoadRecord();
                 ClearText();
                 MessageBox.Show("Record saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);

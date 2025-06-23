@@ -115,16 +115,16 @@
     <Parameter Name="ContactNo" Parameter="contactNo" Type="System.String" DbType="VarChar(30)" />
     <Return Type="System.Int32" />
   </Function>
-  <Function Name="dbo.SP_ADDPRODUCT" Method="SP_ADDPRODUCT">
-    <Parameter Name="Description" Parameter="description" Type="System.String" DbType="VarChar(40)" />
-    <Parameter Name="Category" Parameter="category" Type="System.String" DbType="VarChar(40)" />
-    <Parameter Name="Image" Parameter="image" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" />
-    <Parameter Name="Price" Parameter="price" Type="System.Decimal" DbType="Decimal(18,2)" />
-    <Parameter Name="Qty" Parameter="qty" Type="System.Int32" DbType="Int" />
-    <Return Type="System.Int32" />
-  </Function>
   <Function Name="dbo.SP_DELETEPRODUCT" Method="SP_DELETEPRODUCT">
     <Parameter Name="ProductId" Parameter="productId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_ADDPRODUCT" Method="SP_ADDPRODUCT">
+    <Parameter Name="description" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="category" Type="System.Int32" DbType="Int" />
+    <Parameter Name="image" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" />
+    <Parameter Name="price" Type="System.Decimal" DbType="Decimal(18,2)" />
+    <Parameter Name="qty" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
 </Database>
